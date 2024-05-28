@@ -7,8 +7,23 @@ Outils nécessaires :
 - Installer LINQPad ==> https://www.linqpad.net/.
 Le projet a été réalisé avec LINQPad 8 (version gratuite).
 - Git Hub
--- Créer un compte sur Git Hub.
 Cet outil permet de gérer son dépôt distant Git. Le dépôt distant est une version dématérialisée du dépôt local, que ce soit sur Internet ou sur un réseau. Il permet de centraliser le travail des développeurs dans un projet collectif.
+-- Créer un compte sur Git Hub : https://github.com/
+-- Connectez-vous à votre compte Git Hub.
+-- Dans votre navigateur internet, positionnez vous sur le répertoire (repository) contenant les sources du projet : https://github.com/Kingofzehill/P6_NexaWorks.git
+-- Cliquer sur le bouton Fork (dupliquer). Une duplication créé un nouveau référentiel dans votre Git Hub personnel qui partage le code et les paramètres de visibilité avec le référentiel « en amont » d'origine.
+-- Depuis le repository (répertoire) du projet dupliqué dans votre Git Hub, cliquer sur le bouton Code, dans la partie "Clone", section https, copier l’url du repository (1).
+-- Lancer Git Bash sur votre machine locale.
+-- Dans Git Bash, positionnez-vous sur le répertoire local où vous souhaitez positionner les sources du projet.
+-- Tapez la commande : git clone [indiquer ici l'url de votre repository du dossier que vous avez copié (voir (1)].
+Cette commande clone les sources du répository distant dans le répertoire local dans lequel vous êtes positionné.
+-- Tapez la commade : git init.
+Cette commande initialise votre répertoire local.
+
+A présent vous pouvez gérer les sources du projet localement dans Git Bash. Effectuer et récupérer des modifications, réalisées par vous et votre équipe, centralisées dans le repository distant du projet sur votre Git Hub personnel. 
+Plus d'informations sur les commandes à utiliser dans Git ici : https://git-scm.com/book/en/v2
+
+
 -- Installer Git Bash : https://git-scm.com/downloads
 Note. Existe en version 32/64 bits, windows ou apple, et en version portable. Aide : https://git-scm.com/book/en/v2. Plusieurs GUI client : https://git-scm.com/downloads/guis.
 Cet outil permet de gérer son dépôt local Git (copie locale sur votre ordinateur du dépôt distant contenant le projet). Un dépôt est comme un dossier qui conserve un historique des versions et des modifications d’un projet. 
