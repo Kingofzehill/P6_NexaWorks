@@ -24,8 +24,8 @@ var dataContext = this; // Reference to 'dataContext' variable. It allows to cha
 
 // Input parameters.
 string isInProgressInput = Util.ReadLine("Incident en cours ? (true / false / valeur nulle acceptée (= tickets en cours ou résolus))");
-string softwareName = Util.ReadLine("Produit ? (saisie obligatoire)");
-string softwareVersion = Util.ReadLine("Version ? (valeur nulle acceptée = toutes les versions)");
+string productName = Util.ReadLine("Produit ? (saisie obligatoire)");
+string versionNumber = Util.ReadLine("Version ? (valeur nulle acceptée = toutes les versions)");
 string startPeriodInput = Util.ReadLine("Début période ? (format : AAAA-MM-JJ)");
 string endPeriodInput = Util.ReadLine("Fin période ? (format : AAAA-MM-JJ)");
 bool isInProgress;
@@ -35,9 +35,8 @@ DateTime StartPeriod, EndPeriod;
 // Check parameters values.
 if (isInProgressInput == "")
 {
-	allState = true;
-	Console.WriteLine("isInProgressInput == null");
-	isInProgressInput = "false";
+	allState = true;	
+	isInProgressInput = "false"; // allow to search for Incident.EnCours == true || false.
 }
 
 if (!bool.TryParse(isInProgressInput, out isInProgress))
@@ -63,8 +62,8 @@ else
 				 join Version in dataContext.Versions on Produit_Version.VersionId equals Version.Id				 
 				 where (Incident.EnCours == isInProgress || Incident.EnCours == allState)
 				 && Incident.DateCreation >= StartPeriod && Incident.DateCreation <= EndPeriod 
-				 && Incident.ProduitVersion_SystemeExploitation.Produit_Version.Produit.NomProduit == softwareName
-				 && (Incident.ProduitVersion_SystemeExploitation.Produit_Version.Version.NomVersion == softwareVersion || softwareVersion == string.Empty)
+				 && Incident.ProduitVersion_SystemeExploitation.Produit_Version.Produit.NomProduit == productName
+				 && (Incident.ProduitVersion_SystemeExploitation.Produit_Version.Version.NomVersion == versionNumber || versionNumber == string.Empty)
 				 // Fields to display in Results.
 	             select new
 	             {	                 
