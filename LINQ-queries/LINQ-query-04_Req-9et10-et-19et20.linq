@@ -16,16 +16,19 @@
 </Query>
 
 /* Requêtes NexaWorks prises en charge
- 4: Obtenir tous les problèmes rencontrés au cours d’une période donnée pour un produit (toutes les versions).
- 5: Obtenir tous les problèmes rencontrés au cours d’une période donnée pour un produit (une seule version).
- 14: Obtenir tous les problèmes résolus au cours d’une période donnée pour un produit (toutes les versions).
- 15: Obtenir tous les problèmes résolus au cours d’une période donnée pour un produit (une seule version). */
+ 9: Obtenir tous les problèmes rencontrés au cours d’une période donnée pour un produit contenant une liste de mots-clés (toutes les versions)
+ 10: Obtenir tous les problèmes rencontrés au cours d’une période donnée pour un produit contenant une liste de mots-clés (une seule version)
+ 19 : Obtenir tous les problèmes résolus au cours d’une période donnée pour un produit contenant une liste de mots-clés (toutes les versions)
+ 20 : Obtenir tous les problèmes résolus au cours d’une période donnée pour un produit contenant une liste de mots-clés (une seule version) */
 var dataContext = this; // Reference to 'dataContext' variable. It allows to change dataContext from LINQ-to-SQL (case used here (see above "Connection")), to EF Core (Visual Studio) for SQL Server querying.
 
 // Input parameters.
-string isInProgressInput = Util.ReadLine("Incident en cours ? (true / false / valeur nulle acceptée (= tickets en cours ou résolus))");
-string productName = Util.ReadLine("Produit ? (saisie obligatoire)");
+string isInProgressInput = Util.ReadLine("Incident en cours ? (true ou false / valeur nulle acceptée (= tickets en cours ou résolus))");;
+string productName = Util.ReadLine("Produit ? (valeur nulle acceptée = toutes les produits)");
 string versionNumber = Util.ReadLine("Version ? (valeur nulle acceptée = toutes les versions)");
+string keyword1 = Util.ReadLine("Premier mot-clé ?");
+string keyword2 = Util.ReadLine("Deuxième mot-clé ?");
+string keyword3 = Util.ReadLine("Troisième mot-clé ?");
 string startPeriodInput = Util.ReadLine("Début période ? (format : AAAA-MM-JJ)");
 string endPeriodInput = Util.ReadLine("Fin période ? (format : AAAA-MM-JJ)");
 bool isInProgress;
@@ -41,15 +44,15 @@ if (isInProgressInput == "")
 
 if (!bool.TryParse(isInProgressInput, out isInProgress))
 {
-    Console.WriteLine("La valeur pour incident en cours doit être : true ou false !");
+    Console.WriteLine("Incident en cours doit être TRUE ou FALSE !");
 }
 else if (!DateTime.TryParse(startPeriodInput, out StartPeriod))
 {
-    Console.WriteLine("Format de date début de période incorrect ("+startPeriodInput+") : AAAA-MM-JJ attendu !");
+    Console.WriteLine("Format de date incorrect : AAAA-MM-JJ attendu");
 }
 else if (!DateTime.TryParse(endPeriodInput, out EndPeriod))
 {
-    Console.WriteLine("Format de date fin de période incorrect ("+endPeriodInput+") : AAAA-MM-JJ attendu !");
+    Console.WriteLine("Format de date incorrect : AAAA-MM-JJ attendu");
 }
 else
 {
@@ -59,23 +62,26 @@ else
 	             join SystemeExploitation in dataContext.SystemeExploitations on ProduitVersion_SystemeExploitation.SystemeExploitationId equals SystemeExploitation.Id
 				 join Produit_Version in dataContext.Produit_Versions on ProduitVersion_SystemeExploitation.Produit_VersionId equals Produit_Version.Id
 				 join Produit in dataContext.Produits on Produit_Version.ProduitId equals Produit.Id
-				 join Version in dataContext.Versions on Produit_Version.VersionId equals Version.Id				 
+				 join Version in dataContext.Versions on Produit_Version.VersionId equals Version.Id				 	
 				 where (Incident.EnCours == isInProgress || Incident.EnCours == allState)
-				 && Incident.ProduitVersion_SystemeExploitation.Produit_Version.Produit.NomProduit == productName
+				 && Incident.DateCreation >= StartPeriod && Incident.DateCreation <= EndPeriod
+				 && (Incident.ProduitVersion_SystemeExploitation.Produit_Version.Produit.NomProduit == productName || productName == string.Empty)
 				 && (Incident.ProduitVersion_SystemeExploitation.Produit_Version.Version.NomVersion == versionNumber || versionNumber == string.Empty)
-				 && Incident.DateCreation >= StartPeriod && Incident.DateCreation <= EndPeriod 				 
+				 && Incident.Probleme.Contains(keyword1)
+				 && (Incident.Probleme.Contains(keyword2) || string.IsNullOrEmpty(keyword2))
+				 && (Incident.Probleme.Contains(keyword3) || string.IsNullOrEmpty(keyword3))				 
 				 // Fields to display in Results.
 	             select new
-	             {	                 
-					 Incident.Id,
-					 ProduitVersion_SystemeExploitation.Produit_Version.Produit.NomProduit,
-	                 Incident.ProduitVersion_SystemeExploitation.Produit_Version.Version.NomVersion,
-	                 Incident.ProduitVersion_SystemeExploitation.SystemeExploitation.NomSystemeExploitation,
-	                 Incident.DateCreation,
-	                 Incident.Probleme,
-	                 Incident.EnCours,
-	                 Incident.DateResolution,
-	                 Incident.Resolution
+	             {
+	                Incident.Id,
+					ProduitVersion_SystemeExploitation.Produit_Version.Produit.NomProduit,
+			        Incident.ProduitVersion_SystemeExploitation.Produit_Version.Version.NomVersion,
+			        Incident.ProduitVersion_SystemeExploitation.SystemeExploitation.NomSystemeExploitation,
+			        Incident.DateCreation,
+			        Incident.Probleme,
+			        Incident.EnCours,
+			        Incident.DateResolution,
+			        Incident.Resolution
 	             };
 	result.Dump();
 }
