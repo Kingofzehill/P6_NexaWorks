@@ -15,7 +15,7 @@
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
 
-/* Requêtes prises en charge
+/* Requêtes NexaWorks prises en charge
 6: Obtenir tous les problèmes en cours contenant une liste de mots-clés (tous les produits).
 7: Obtenir tous les problèmes en cours pour un produit contenant une liste de mots-clés (toutes les versions).
 8: Obtenir tous les problèmes en cours pour un produit contenant une liste de mots-clés (une seule version).
@@ -29,8 +29,8 @@ string isInProgressInput = Util.ReadLine("Incident en cours ? (true ou false)");
 string productName = Util.ReadLine("Produit ? (valeur nulle acceptée = toutes les produits)");
 string versionNumber = Util.ReadLine("Version ? (valeur nulle acceptée = toutes les versions)");
 string keyword1 = Util.ReadLine("Premier mot-clé ?");
-string keyword2 = Util.ReadLine("Deuxième mot-clé ?");
-string keyword3 = Util.ReadLine("Troisième mot-clé ?");
+string keyword2 = Util.ReadLine("Deuxième mot-clé ? (facultatif, valeur nulle acceptée)");
+string keyword3 = Util.ReadLine("Troisième mot-clé ? (facultatif, valeur nulle acceptée)");
 bool isInProgress;
 
 // Check parameters values.
@@ -38,10 +38,47 @@ if (!bool.TryParse(isInProgressInput, out isInProgress))
 {
     Console.WriteLine("La valeur pour incident en cours doit être : true ou false !");
 }
+else if (keyword1 == "")
+{
+    Console.WriteLine("Au moins un mot-clé est attendu !");
+}
 else
 {	 
-	var result = dataContext.Incidents
-	//use Join syntax method (.Join()) https://learn.microsoft.com/fr-fr/dotnet/csharp/linq/standard-query-operators/join-operations#single-key-join
+	// Query.	
+	var result = from Incident in dataContext.Incidents
+        join ProduitVersion_SystemeExploitation in dataContext.ProduitVersion_SystemeExploitations on Incident.ProduitVersion_SystemeExploitationId equals ProduitVersion_SystemeExploitation.Id
+        join SystemeExploitation in dataContext.SystemeExploitations on ProduitVersion_SystemeExploitation.SystemeExploitationId equals SystemeExploitation.Id
+		join Produit_Version in dataContext.Produit_Versions on ProduitVersion_SystemeExploitation.Produit_VersionId equals Produit_Version.Id
+		join Produit in dataContext.Produits on Produit_Version.ProduitId equals Produit.Id
+		join Version in dataContext.Versions on Produit_Version.VersionId equals Version.Id				 	
+		where Incident.EnCours == isInProgress            
+            && (Produit.NomProduit == productName || string.IsNullOrEmpty(productName))
+            && (Version.NomVersion == versionNumber || string.IsNullOrEmpty(versionNumber))
+			&& (string.IsNullOrEmpty(keyword1) || Incident.Probleme.Contains(keyword1))
+            && (string.IsNullOrEmpty(keyword2) || Incident.Probleme.Contains(keyword2))
+            && (string.IsNullOrEmpty(keyword3) || Incident.Probleme.Contains(keyword3))
+		// Descending order : [table.field] descending.
+		orderby Produit.NomProduit, Version.NomVersion, 
+			SystemeExploitation.NomSystemeExploitation, Incident.DateCreation	
+		// Data fields displayed in Results.
+	    select new
+	    {
+			Incident.Id,
+			Produit.NomProduit,
+	        Version.NomVersion,
+	        SystemeExploitation.NomSystemeExploitation,
+	        Incident.DateCreation,
+	        Incident.Probleme,
+	        Incident.EnCours,
+	        Incident.DateResolution,
+	        Incident.Resolution
+	    };
+	result.Dump();
+}
+
+/*
+	// Test: syntax Join  method (.Join()) https://learn.microsoft.com/fr-fr/dotnet/csharp/linq/standard-query-operators/join-operations#single-key-join.
+	var result = dataContext.Incidents	
     .Join(dataContext.ProduitVersion_SystemeExploitations, Incident => Incident.ProduitVersion_SystemeExploitationId, ProduitVersion_SystemeExploitation => ProduitVersion_SystemeExploitation.Id, (Incident, ProduitVersion_SystemeExploitation) => new { Incident, ProduitVersion_SystemeExploitation })
 	.Join(dataContext.SystemeExploitations, x => x.ProduitVersion_SystemeExploitation.SystemeExploitationId, SystemeExploitation => SystemeExploitation.Id, (x, SystemeExploitation) => new { x.Incident, x.ProduitVersion_SystemeExploitation, SystemeExploitation })
     .Join(dataContext.Produit_Versions, x => x.ProduitVersion_SystemeExploitation.Produit_VersionId, Produit_Version => Produit_Version.Id, (x, Produit_Version) => new { x.Incident, x.ProduitVersion_SystemeExploitation, x.SystemeExploitation, Produit_Version })
@@ -53,6 +90,7 @@ else
                 && (string.IsNullOrEmpty(keyword3) || x.Incident.Probleme.Contains(keyword3))
                 && (x.Produit.NomProduit == productName || string.IsNullOrEmpty(productName))
                 && (x.Version.NomVersion == versionNumber || string.IsNullOrEmpty(versionNumber)))
+	// Fields to display in Results.
     .Select(x => new
     {
 		x.Incident.Id,
@@ -65,5 +103,4 @@ else
         x.Incident.DateResolution,
         x.Incident.Resolution
     });
-	result.Dump();
-}
+*/

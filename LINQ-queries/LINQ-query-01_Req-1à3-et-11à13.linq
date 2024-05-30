@@ -39,29 +39,29 @@ else
 {
 	// Query.
 	var result = from Incident in dataContext.Incidents
-	             join ProduitVersion_SystemeExploitation in dataContext.ProduitVersion_SystemeExploitations on Incident.ProduitVersion_SystemeExploitationId equals ProduitVersion_SystemeExploitation.Id
-	             join SystemeExploitation in dataContext.SystemeExploitations on ProduitVersion_SystemeExploitation.SystemeExploitationId equals SystemeExploitation.Id
-				 join Produit_Version in dataContext.Produit_Versions on ProduitVersion_SystemeExploitation.Produit_VersionId equals Produit_Version.Id
-				 join Produit in dataContext.Produits on Produit_Version.ProduitId equals Produit.Id
-				 join Version in dataContext.Versions on Produit_Version.VersionId equals Version.Id
-				 where Incident.EnCours == isInProgress 
-				 && (Incident.ProduitVersion_SystemeExploitation.Produit_Version.Produit.NomProduit == productName || productName == string.Empty)
-				 && (Incident.ProduitVersion_SystemeExploitation.Produit_Version.Version.NomVersion == versionNumber || versionNumber == string.Empty)
-				 orderby Incident.EnCours, Incident.ProduitVersion_SystemeExploitation.Produit_Version.Produit.NomProduit, 
-				 Incident.ProduitVersion_SystemeExploitation.Produit_Version.Version.NomVersion, Incident.ProduitVersion_SystemeExploitation.SystemeExploitation.NomSystemeExploitation,
-				 Incident.DateCreation	
-				 // Fields to display in Results.
-	             select new
-	             {
-	                 Incident.Id,
-					 ProduitVersion_SystemeExploitation.Produit_Version.Produit.NomProduit,
-	                 Incident.ProduitVersion_SystemeExploitation.Produit_Version.Version.NomVersion,
-	                 Incident.ProduitVersion_SystemeExploitation.SystemeExploitation.NomSystemeExploitation,
-	                 Incident.DateCreation,
-	                 Incident.Probleme,
-	                 Incident.EnCours,
-	                 Incident.DateResolution,
-	                 Incident.Resolution
-	             };
+        join ProduitVersion_SystemeExploitation in dataContext.ProduitVersion_SystemeExploitations on Incident.ProduitVersion_SystemeExploitationId equals ProduitVersion_SystemeExploitation.Id
+        join SystemeExploitation in dataContext.SystemeExploitations on ProduitVersion_SystemeExploitation.SystemeExploitationId equals SystemeExploitation.Id
+		join Produit_Version in dataContext.Produit_Versions on ProduitVersion_SystemeExploitation.Produit_VersionId equals Produit_Version.Id
+		join Produit in dataContext.Produits on Produit_Version.ProduitId equals Produit.Id
+		join Version in dataContext.Versions on Produit_Version.VersionId equals Version.Id
+		where Incident.EnCours == isInProgress 
+			&& (Produit.NomProduit == productName || productName == string.Empty)
+			&& (Version.NomVersion == versionNumber || versionNumber == string.Empty)
+		// Descending order : [table.field] descending.
+		orderby Produit.NomProduit, Version.NomVersion, 
+			SystemeExploitation.NomSystemeExploitation, Incident.DateCreation	
+		// Data fields displayed in Results.
+        select new
+        {
+            Incident.Id,
+			Produit.NomProduit,
+            Version.NomVersion,
+            SystemeExploitation.NomSystemeExploitation,
+            Incident.DateCreation,
+            Incident.Probleme,
+            Incident.EnCours,
+            Incident.DateResolution,
+            Incident.Resolution
+        };
 	result.Dump();
 }
