@@ -41,7 +41,7 @@ Elles couvrent les 20 requêtes demandées par l'équipe NexaWorks Produits logi
 En haut à gaucher cliquer sur "Add connection" pour ajouter une connexion à une base de données.
 
 - Sélectionner le LINQPad driver "LINQ to sql (optimized for SQL SERVER)" puis next.
--- Provider : SQL Server
+    - Provider : SQL Server
 -- Server : (voir le nom du serveur dans SMSS)
 -- Log on details : (sélectionner le mode d'authentification au serveur).
 -- Database : Display all in a TreeView, et cocher Populate on startup. 
