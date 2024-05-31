@@ -42,27 +42,25 @@ En haut à gaucher cliquer sur "Add connection" pour ajouter une connexion à un
 
 - Sélectionner le LINQPad driver "LINQ to sql (optimized for SQL SERVER)" puis next.
     - Provider : SQL Server
--- Server : (voir le nom du serveur dans SMSS)
--- Log on details : (sélectionner le mode d'authentification au serveur).
--- Database : Display all in a TreeView, et cocher Populate on startup. 
--- Data context options, cocher : 
---- Allow DateOnly and TimeOnly types.
---- Pluralize EntitySet and Table properties.
---- Capitalize property names.
---- Include Stored Procedure and Functions. 
--- cocher "Remember this connection"
--- Utiliser le bouton "Test" pour vérifier la connexion à la base de données", si message "Connection successful", cliquer sur OK. 
+    - Server : (voir le nom du serveur dans SMSS)
+    - Log on details : (sélectionner le mode d'authentification au serveur).
+    - Database : Display all in a TreeView, et cocher Populate on startup. 
+    - Data context options, cocher : 
+        - Allow DateOnly and TimeOnly types.
+        - Pluralize EntitySet and Table properties.
+        - Capitalize property names.
+        - Include Stored Procedure and Functions. 
+    - cocher "Remember this connection"
+    - Utiliser le bouton "Test" pour vérifier la connexion à la base de données", si message "Connection successful", cliquer sur OK. 
 
 - Ajouter le répertoire des requêtes .linq :
 En bas à gauche dans l'onglet My Queries, cliquer sur "Set Folder".
--- Dans la partie "My Queries", sélectionner Custom Location et à l'aide du lien "Browse" positionnez vous sur le répertoire contenant les requêtes .linq, puis ok. 
--- Les requêtes .linq sont à présent affichées.
--- Ouvrez les requêtes en cliquant dessus. 
--- Puis F5 pour les exécuter (ou cliquer sur le symbole play de couleur verte).
--- LINQPad vous demande de saisir les paramètres attendus (en bas de l'écran). 
+    - Dans la partie "My Queries", sélectionner Custom Location et à l'aide du lien "Browse" positionnez vous sur le répertoire contenant les requêtes .linq, puis ok. 
+    - Les requêtes .linq sont à présent affichées.
+    - Ouvrez les requêtes en cliquant dessus. 
+    - Puis F5 pour les exécuter (ou cliquer sur le symbole play de couleur verte).
+    - LINQPad vous demande de saisir les paramètres attendus (en bas de l'écran). 
 Note. veuillez vous référer à la documentation de chaque requête "..\Moureu_Stephane_4_Documentation_de_la_base_de_données_052024_vX.pdf".
 Note. le dossier "..\LINQ-queries\excel_extracts\" fournit un extract excel pour chacune des 20 requêtes demandées par NexaWorks listées dans la documentation (voir colonne Commentaires).
--- les résultats sont affichés dans l'onglet "Results". 
--- Vous pouvez ouvrir (et sauvegarder) ces résultats dans Excel, via les "..." affichés à côté de la mention "IOrderedQueryable".
-      
-    
+    - les résultats sont affichés dans l'onglet "Results". 
+    - Vous pouvez ouvrir (et sauvegarder) ces résultats dans Excel, via les "..." affichés à côté de la mention "IOrderedQueryable".      
