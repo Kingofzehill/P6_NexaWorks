@@ -26,7 +26,7 @@ var dataContext = this; // Reference to 'dataContext' variable. It allows to cha
 
 // Input parameters.
 string isInProgressInput = Util.ReadLine("Incident en cours ? (true ou false)");;
-string productName = Util.ReadLine("Produit ? (valeur nulle acceptée = toutes les produits)");
+string productName = Util.ReadLine("Produit ? (valeur nulle acceptée = tous les produits)");
 string versionNumber = Util.ReadLine("Version ? (valeur nulle acceptée = toutes les versions)");
 string keyword1 = Util.ReadLine("Premier mot-clé ?");
 string keyword2 = Util.ReadLine("Deuxième mot-clé ? (facultatif, valeur nulle acceptée)");
