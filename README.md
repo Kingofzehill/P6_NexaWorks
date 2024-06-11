@@ -12,9 +12,9 @@ Le projet a été réalisé avec SMSS 19.2.56.2.
 https://www.linqpad.net/.
 Le projet a été réalisé avec LINQPad 8 (version gratuite).
 - GitHub / GitHub Desktop (ou Git Bash)
-https://github.com/
-https://desktop.github.com/
-Veuillez dupliquer le dépôt distant du projet (voir url qui vous a été communiquée) dans votre Git Hub. Puis cloner le projet localement (sur votre machine) avec GitHub Desktop (ou GitBash). Vous disposez à présent des sources du projet sur votre machine locale.
+https://github.com/.
+https://desktop.github.com/.
+Dupliquer (fork) le dépôt distant du projet (voir url communiquée) dans votre GitHub. Cloner le projet localement (sur votre machine) avec GitHub Desktop (ou GitBash). Vous disposez localement des sources du projet.
 
     
 Projet et instructions de démarrage :
@@ -60,7 +60,7 @@ En bas à gauche dans l'onglet My Queries, cliquer sur "Set Folder".
         - Ouvrez les requêtes en cliquant dessus. 
         - Puis F5 pour les exécuter (ou cliquer sur le symbole play de couleur verte).
         - LINQPad vous demande de saisir les paramètres attendus (en bas de l'écran). 
-Note. veuillez vous référer à la documentation de chaque requête "..\Moureu_Stephane_4_Documentation_de_la_base_de_données_052024_vX.pdf".
-Note. le dossier "..\LINQ-queries\excel_extracts\" fournit un extract excel pour chacune des 20 requêtes demandées par NexaWorks listées dans la documentation (voir colonne Commentaires).
+            - Veuillez vous référer à la documentation de chaque requête "..\Moureu_Stephane_4_Documentation_de_la_base_de_données_052024_vX.pdf".
+            - Le dossier "..\LINQ-queries\excel_extracts\" fournit un extract excel pour chacune des 20 requêtes demandées par NexaWorks (voir colonne Commentaires de le documentation de la base de données).
         - les résultats sont affichés dans l'onglet "Results". 
         - Vous pouvez ouvrir (et sauvegarder) ces résultats dans Excel, via les "..." affichés à côté de la mention "IOrderedQueryable".      
