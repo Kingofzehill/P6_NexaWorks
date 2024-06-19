@@ -51,7 +51,7 @@ else
 		join Produit_Version in dataContext.Produit_Versions on ProduitVersion_SystemeExploitation.Produit_VersionId equals Produit_Version.Id
 		join Produit in dataContext.Produits on Produit_Version.ProduitId equals Produit.Id
 		join Version in dataContext.Versions on Produit_Version.VersionId equals Version.Id				 	
-		where Incident.EnCours == isInProgress            
+		where Incident.Statut == isInProgress            
             && (Produit.NomProduit == productName || string.IsNullOrEmpty(productName))
             && (Version.NomVersion == versionNumber || string.IsNullOrEmpty(versionNumber))
 			&& (string.IsNullOrEmpty(keyword1) || Incident.Probleme.Contains(keyword1))
@@ -69,7 +69,7 @@ else
 	        SystemeExploitation.NomSystemeExploitation,
 	        Incident.DateCreation,
 	        Incident.Probleme,
-	        Incident.EnCours,
+	        Incident.Statut,
 	        Incident.DateResolution,
 	        Incident.Resolution
 	    };

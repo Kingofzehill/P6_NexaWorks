@@ -60,12 +60,12 @@ else
 		join Produit_Version in dataContext.Produit_Versions on ProduitVersion_SystemeExploitation.Produit_VersionId equals Produit_Version.Id
 		join Produit in dataContext.Produits on Produit_Version.ProduitId equals Produit.Id
 		join Version in dataContext.Versions on Produit_Version.VersionId equals Version.Id				 
-		where (Incident.EnCours == isInProgress || Incident.EnCours == allState)
+		where (Incident.Statut == isInProgress || Incident.Statut == allState)
 			&& (Produit.NomProduit == productName || string.IsNullOrEmpty(productName))
 			&& (Version.NomVersion == versionNumber || versionNumber == string.Empty)
 			&& Incident.DateCreation >= StartPeriod && Incident.DateCreation <= EndPeriod
 		// Descending order : [table.field] descending.
-		orderby Incident.EnCours, Produit.NomProduit, Version.NomVersion, 
+		orderby Incident.Statut, Produit.NomProduit, Version.NomVersion, 
 			SystemeExploitation.NomSystemeExploitation, Incident.DateCreation	
 		// Data fields displayed in Results.
         select new

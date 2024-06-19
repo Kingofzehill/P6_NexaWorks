@@ -1,4 +1,4 @@
-Id;EnCours;Probleme;Resolution;DateCreation;DateResolution;ProduitVersion_SystemeExploitationId
+Id;Statut;Probleme;Resolution;DateCreation;DateResolution;ProduitVersion_SystemeExploitationId
 1;0;Les utilisateurs ne peuvent pas supprimer certains exercices préchargés de leur bibliothèque d'exercices.;Le problème était dû à une erreur de conception dans la gestion de la bibliothèque d'exercices. Les exercices préchargés non souhaités peuvent maintenant être supprimés avec succès par les utilisateurs.;31/07/2023;03/05/2023;31
 2;0;L'application affiche des informations de marché obsolètes, ce qui peut conduire à des décisions de trading inexactes.;Le problème était dû à un problème de cache des données de marché. La durée de mise en cache a été ajustée pour afficher les informations de marché les plus récentes et précises.;18/02/2023;02/03/2023;22
 3;0;Certains utilisateurs ne peuvent pas voir le solde total de leur portefeuille en raison d'une erreur d'affichage.;Le problème était lié à une mauvaise mise en forme des données de solde. La mise en forme a été corrigée et les utilisateurs peuvent maintenant voir leur solde total correctement.;12/02/2023;28/02/2023;9
